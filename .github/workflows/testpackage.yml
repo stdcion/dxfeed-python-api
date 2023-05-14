@@ -32,9 +32,9 @@ jobs:
     - name: Set poetry env
       run: |
         pip install --upgrade pip
+        pip install taskipy cython setuptools pytest
         poetry config virtualenvs.create false
         poetry install --only main
-        pip install taskipy cython setuptools
         task build -f sdist
         pip uninstall --yes taskipy cython
       shell: bash
@@ -45,7 +45,7 @@ jobs:
       shell: bash
     - name: Run tests
       run: |
-        task test
+        poetry run task test
       shell: bash
   # tests:
   #   needs: installation
