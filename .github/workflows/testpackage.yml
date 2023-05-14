@@ -40,7 +40,6 @@ jobs:
     - name: Install package artifact
       run: |
         pip install dist/dxfeed*
-        pip uninstall --yes dxfeed
       shell: bash
     - name: Run tests
       run: |
