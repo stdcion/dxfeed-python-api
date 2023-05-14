@@ -53,6 +53,8 @@ jobs:
         # Restart bash shell
         bash
 
+        export PATH="$HOME/.pyenv/bin:$PATH"
+
         # Install python 3.9.16
         pyenv install 3.9.16
 
