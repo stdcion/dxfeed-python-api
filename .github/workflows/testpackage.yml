@@ -34,7 +34,7 @@ jobs:
         pip install taskipy cython toml
         poetry install --only main
         task build -f sdist
-        pip uninstall --yes taskipy cython
+        # pip uninstall --yes taskipy cython
       shell: bash
 
     - name: Install package artifact
