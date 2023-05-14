@@ -11,7 +11,7 @@ jobs:
   installation:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest]
         python-version: [3.7, 3.8, 3.9]
     runs-on: ${{ matrix.os }}
 
@@ -20,15 +20,10 @@ jobs:
       with:
         submodules: true
 
-    # - name: Set up Python ${{ matrix.python-version }}
-    #   uses: actions/setup-python@v4
-    #   with:
-    #     python-version: ${{ matrix.python-version }}
-
-    - name: Set up Python
-      run: | 
-        curl -o python-3.10.9-amd64.exe https://www.python.org/ftp/python/3.10.9/python-3.10.9-amd64.exe
-        ./python-3.10.9-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Install Poetry
       uses: abatilo/actions-poetry@v2
@@ -44,6 +39,28 @@ jobs:
 
     - name: Install package artifact
       run: |
+        sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+        libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+        # Run automatic pyenv installer
+        curl https://pyenv.run | bash
+
+        # Configure bash shell
+        echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+        echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+        echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+        # Restart bash shell
+        bash
+
+        # Install python 3.9.16
+        pyenv install 3.9.16
+
+        # Set python 3.9.16 as global
+        pyenv global 3.9.16
+
+        # Check python version
+        python --version
         pip install dist/dxfeed*
         echo "import dxfeed as dx" >> import_test.py
         python import_test.py
