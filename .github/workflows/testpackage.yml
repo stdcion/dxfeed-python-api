@@ -60,12 +60,13 @@ jobs:
 
         # Set python 3.9.16 as global
         pyenv global 3.9.16
+        pyenv local 3.9.16
 
         # Check python version
-        python --version
-        pip install dist/dxfeed*
+        /home/runner/.pyenv/versions/3.9.16/python python --version
+        /home/runner/.pyenv/versions/3.9.16/python -m pip install dist/dxfeed*
         echo "import dxfeed as dx" >> import_test.py
-        python import_test.py
+        /home/runner/.pyenv/versions/3.9.16/python import_test.py
         pip uninstall --yes dxfeed
       shell: bash
 
