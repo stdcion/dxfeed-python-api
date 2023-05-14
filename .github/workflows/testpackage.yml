@@ -20,10 +20,15 @@ jobs:
       with:
         submodules: true
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+    # - name: Set up Python ${{ matrix.python-version }}
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: ${{ matrix.python-version }}
+
+    - name: Set up Python
+      run: | 
+        curl https://www.python.org/ftp/python/3.10.9/python-3.10.9-amd64.exe
+        ./python-3.10.9-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
 
     - name: Install Poetry
       uses: abatilo/actions-poetry@v2
